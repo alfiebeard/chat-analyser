@@ -1,0 +1,361 @@
+{
+    "participants": [
+        {
+            "name": "Alice Adams"
+        },
+        {
+            "name": "Bob Baker"
+        },
+        {
+            "name": "Charlie Clark"
+        },
+        {
+            "name": "David Davis"
+        },
+        {
+            "name": "Eve Evans"
+        },
+        {
+            "name": "Frank Franks"
+        },
+        {
+            "name": "Grace Ghosh"
+        }
+    ],
+    "messages": [
+        {
+            "sender_name": "Bob Baker",
+            "timestamp_ms": 1639830325515,
+            "content": "Or 6?",
+            "reactions": [
+                {
+                    "reaction": "\u00f0\u009f\u0098\u0086",
+                    "actor": "Charlie Clark"
+                }
+            ],
+            "type": "Generic",
+            "is_unsent": false
+        },
+        {
+            "sender_name": "Bob Baker",
+            "timestamp_ms": 1639830321964,
+            "content": "Meet at 5?",
+            "type": "Generic",
+            "is_unsent": false
+        },
+        {
+            "sender_name": "Charlie Clark",
+            "timestamp_ms": 1639830318323,
+            "content": "Great",
+            "type": "Generic",
+            "is_unsent": false
+        },
+        {
+            "sender_name": "Bob Baker",
+            "timestamp_ms": 1639830314016,
+            "content": "I am",
+            "type": "Generic",
+            "is_unsent": false
+        },
+        {
+            "sender_name": "Charlie Clark",
+            "timestamp_ms": 1639830294551,
+            "content": "Anyone playing football later?",
+            "type": "Generic",
+            "is_unsent": false
+        },
+        {
+            "sender_name": "Charlie Clark",
+            "timestamp_ms": 1639830248718,
+            "content": "We will have to redo it",
+            "type": "Generic",
+            "is_unsent": false
+        },
+        {
+            "sender_name": "Charlie Clark",
+            "timestamp_ms": 1639830239893,
+            "content": "Haha",
+            "type": "Generic",
+            "is_unsent": false
+        },
+        {
+            "sender_name": "Bob Baker",
+            "timestamp_ms": 1639829545358,
+            "content": "Must be setup",
+            "type": "Generic",
+            "is_unsent": false
+        },
+        {
+            "sender_name": "David Davis",
+            "timestamp_ms": 1639826657689,
+            "content": "That is not right",
+            "type": "Generic",
+            "is_unsent": false
+        },
+        {
+            "sender_name": "David Davis",
+            "timestamp_ms": 1639826627044,
+            "content": "It cannot be",
+            "reactions": [
+                {
+                    "reaction": "\u00f0\u009f\u0098\u0086",
+                    "actor": "Alice Adams"
+                }
+            ],
+            "type": "Generic",
+            "is_unsent": false
+        },
+        {
+            "sender_name": "Eve Evans",
+            "timestamp_ms": 1639826585694,
+            "content": "Absolute nonsense",
+            "type": "Generic",
+            "is_unsent": false
+        },
+        {
+            "sender_name": "Bob Baker",
+            "timestamp_ms": 1639825439911,
+            "content": "Not the strongest",
+            "type": "Generic",
+            "is_unsent": false
+        },
+        {
+            "sender_name": "Charlie Clark",
+            "timestamp_ms": 1639816911092,
+            "content": "Check out these",
+            "type": "Generic",
+            "is_unsent": false
+        },
+        {
+            "sender_name": "Charlie Clark",
+            "timestamp_ms": 1639816910600,
+            "photos": [
+                {
+                    "uri": "messages/inbox/testchat/photos/test_chat_message_4.jpg",
+                    "creation_timestamp": 1639816909
+                }
+            ],
+            "reactions": [
+                {
+                    "reaction": "\u00f0\u009f\u0098\u0086",
+                    "actor": "Frank Franks"
+                },
+                {
+                    "reaction": "\u00f0\u009f\u0098\u0086",
+                    "actor": "Bob Baker"
+                },
+                {
+                    "reaction": "\u00f0\u009f\u0098\u0086",
+                    "actor": "Grace Ghosh"
+                },
+                {
+                    "reaction": "\u00f0\u009f\u0091\u008d",
+                    "actor": "Alice Adams"
+                },
+                {
+                    "reaction": "\u00f0\u009f\u0098\u0086",
+                    "actor": "Eve Evans"
+                },
+                {
+                    "reaction": "\u00f0\u009f\u0098\u0086",
+                    "actor": "David Davis"
+                }
+            ],
+            "type": "Generic",
+            "is_unsent": false
+        },
+        {
+            "sender_name": "Charlie Clark",
+            "timestamp_ms": 1639816909378,
+            "photos": [
+                {
+                    "uri": "messages/inbox/testchat/photos/test_chat_message_3.jpg",
+                    "creation_timestamp": 1639816908
+                }
+            ],
+            "type": "Generic",
+            "is_unsent": false
+        },
+        {
+            "sender_name": "Charlie Clark",
+            "timestamp_ms": 1639766328109,
+            "content": "What a deal",
+            "type": "Generic",
+            "is_unsent": false
+        },
+        {
+            "sender_name": "Bob Baker",
+            "timestamp_ms": 1639766259514,
+            "content": "\u00f0\u009f\u0098\u00ac",
+            "type": "Generic",
+            "is_unsent": false
+        },
+        {
+            "sender_name": "Eve Evans",
+            "timestamp_ms": 1639765346942,
+            "content": "\u00c2\u00a35",
+            "type": "Generic",
+            "is_unsent": false
+        },
+        {
+            "sender_name": "Charlie Clark",
+            "timestamp_ms": 1639765304777,
+            "content": "\u00c2\u00a310",
+            "type": "Generic",
+            "is_unsent": false
+        },
+        {
+            "sender_name": "Eve Evans",
+            "timestamp_ms": 1639765283630,
+            "content": "Surely it can\u00e2\u0080\u0099t be",
+            "type": "Generic",
+            "is_unsent": false
+        },
+        {
+            "sender_name": "Bob Baker",
+            "timestamp_ms": 1639764674112,
+            "content": "Probably around, unless I get asked to work last minute",
+            "type": "Generic",
+            "is_unsent": false
+        },
+        {
+            "sender_name": "Eve Evans",
+            "timestamp_ms": 1639764168849,
+            "photos": [
+                {
+                    "uri": "messages/inbox/testchat/photos/test_chat_message_2.jpg",
+                    "creation_timestamp": 1639764167
+                }
+            ],
+            "type": "Generic",
+            "is_unsent": false
+        },
+        {
+            "sender_name": "Eve Evans",
+            "timestamp_ms": 1639764154747,
+            "content": "Guess how much this is?",
+            "type": "Generic",
+            "is_unsent": false
+        },
+        {
+            "sender_name": "David Davis",
+            "timestamp_ms": 1639760965145,
+            "content": "Fair enough, enjoy!",
+            "type": "Generic",
+            "is_unsent": false
+        },
+        {
+            "sender_name": "Alice Adams",
+            "timestamp_ms": 1639760855194,
+            "content": "in*",
+            "type": "Generic",
+            "is_unsent": false
+        },
+        {
+            "sender_name": "Alice Adams",
+            "timestamp_ms": 1639760851252,
+            "content": "No sorry, I\u00e2\u0080\u0099m France",
+            "type": "Generic",
+            "is_unsent": false
+        },
+        {
+            "sender_name": "David Davis",
+            "timestamp_ms": 1639760754248,
+            "content": "I can't, but is anyone around tomorrow night?",
+            "type": "Generic",
+            "is_unsent": false
+        },
+        {
+            "sender_name": "Bob Baker",
+            "timestamp_ms": 1639752150591,
+            "content": "I'm in for food",
+            "type": "Generic",
+            "is_unsent": false
+        },
+        {
+            "sender_name": "Eve Evans",
+            "timestamp_ms": 1639747379251,
+            "content": "Or cinema?",
+            "type": "Generic",
+            "is_unsent": false
+        },
+        {
+            "sender_name": "Eve Evans",
+            "timestamp_ms": 1639747357544,
+            "content": "Maybe go out for food?",
+            "type": "Generic",
+            "is_unsent": false
+        },
+        {
+            "sender_name": "Bob Baker",
+            "timestamp_ms": 1639746920625,
+            "content": "Bowling?",
+            "type": "Generic",
+            "is_unsent": false
+        },
+        {
+            "sender_name": "Eve Evans",
+            "timestamp_ms": 1639743677569,
+            "content": "Not sure",
+            "type": "Generic",
+            "is_unsent": false
+        },
+        {
+            "sender_name": "Eve Evans",
+            "timestamp_ms": 1639743674787,
+            "content": "What are we doing tonight?",
+            "type": "Generic",
+            "is_unsent": false
+        },
+        {
+            "sender_name": "Charlie Clark",
+            "timestamp_ms": 1639729750422,
+            "photos": [
+                {
+                    "uri": "messages/inbox/testchat/photos/test_chat_message_1.jpg",
+                    "creation_timestamp": 1639729749
+                }
+            ],
+            "reactions": [
+                {
+                    "reaction": "\u00f0\u009f\u0098\u0086",
+                    "actor": "Frank Franks"
+                },
+                {
+                    "reaction": "\u00f0\u009f\u0096\u0095",
+                    "actor": "Bob Baker"
+                },
+                {
+                    "reaction": "\u00f0\u009f\u009a\u0091",
+                    "actor": "Grace Ghosh"
+                },
+                {
+                    "reaction": "\u00f0\u009f\u0091\u008d",
+                    "actor": "Alice Adams"
+                },
+                {
+                    "reaction": "\u00f0\u009f\u0098\u0086",
+                    "actor": "Eve Evans"
+                }
+            ],
+            "type": "Generic",
+            "is_unsent": false
+        },
+        {
+            "sender_name": "Alice Adams",
+            "timestamp_ms": 1639729748,
+            "content": "Welcome to the chat",
+            "type": "Generic",
+            "is_unsent": false
+        }
+    ],
+    "title": "Test Chat",
+    "is_still_participant": true,
+    "thread_type": "RegularGroup",
+    "thread_path": "inbox/testchat",
+    "magic_words": [],
+    "image": {
+        "uri": "messages/photos/chat_image.jpg",
+        "creation_timestamp": 1636237616
+    }
+}
