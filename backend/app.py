@@ -7,7 +7,7 @@ from groupchat_analyser.Groupchat import Groupchat
 from utils import df_from_dict, nan_to_null
 
 
-app = Flask(__name__, template_folder='../frontend/build', static_folder='../frontend/build/static')
+app = Flask(__name__) # , template_folder='../frontend/build', static_folder='../frontend/build/static')
 app.secret_key = 'password'
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
@@ -54,10 +54,9 @@ def api_clear_data():
     return {"message": "data cleared"}
 
 
-@app.route('/api/print_df', methods=['GET'])
-def api_print_df():
-    print(df_from_dict(session['df']))
-    return {"a": "a"}
+@app.route('/api/check_connection', methods=['GET'])
+def api_check_connection():
+    return {"status": "success"}
 
 
 @app.route('/api/general_stats', methods=['GET'])
@@ -106,4 +105,4 @@ def api_nth_messages():
 
 
 if __name__ == "__main__":
-	app.run()
+	app.run(port=8080)
