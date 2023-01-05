@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react';
-import '../../App.css';
-import { fetchMessagesOverTime } from '../../api/api';
-import messagesOverTimeSample from '../../TestData/messagesOverTimeSample.json';
-import BarChart from '../BaseGraphs/BarChart';
+import '../../app/App.css';
+import { fetchMessagesOverTime } from '../../../api/api.js';
+import messagesOverTimeSample from '../../../TestData/messagesOverTimeSample.json';
+import BarChart from '../coreGraphs/BarChart.js';
 
 
 const MessagesOverTimeGraph = (props) => {

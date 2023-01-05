@@ -1,0 +1,19 @@
+.app {
+    height: 100vh;
+    width: 100vw;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    margin: 0 !important;
+}
+
+.sidebar {
+    flex: 0.15 0 !important;
+    background-color: deepskyblue;
+    height: 100%;
+    padding: 0 !important;
+}
+
+.main-content {
+    flex: 0.85 0 !important;
+    height: 100%;
+    padding: 0 !important;
+}

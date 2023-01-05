@@ -1,5 +1,5 @@
-export function formatSeconds(seconds){
-    // In seconds
+export function convertSeconds(seconds){
+    // Convert from seconds to minutes/hours/days. E.g., 40000 returns "11 hours".
     if (seconds < 60){
         return Math.round(seconds) + " seconds";
     }

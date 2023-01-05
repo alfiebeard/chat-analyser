@@ -1,0 +1,30 @@
+.sidebar-item {
+    display: flex ;
+    justify-content: center;
+    margin: 1rem;
+}
+
+.sidebar-link {
+    position: relative;
+    padding: 1rem;
+    margin: 0;
+    width: 100%;
+    cursor: pointer;
+}
+
+.sidebar-active-marker {
+    width: 5px;
+    height: 1.5rem;
+    background-color: white;
+    position: absolute;
+    right: 5px;
+}
+
+.sidebar-title {
+    text-align: center;
+}
+
+.disabled {
+    cursor: default;
+    opacity: 0.5;
+}

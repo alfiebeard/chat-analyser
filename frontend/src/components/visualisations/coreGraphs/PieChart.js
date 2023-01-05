@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import '../../App.css';
+import '../../app/App.css';
 import {Chart as Chartjs} from 'chart.js/auto';
 import {Chart} from 'chart.js';
 import {Pie} from 'react-chartjs-2';

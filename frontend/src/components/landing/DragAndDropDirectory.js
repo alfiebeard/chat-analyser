@@ -1,5 +1,5 @@
 import Dropzone from 'react-dropzone';
-import { sendFiles } from "../utils/fileUploadUtils";
+import { sendFiles } from "../../utils/fileUploadUtils";
 
 const DragAndDropDirectory = (props) => {
   return (

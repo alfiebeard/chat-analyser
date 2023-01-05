@@ -18,14 +18,11 @@ function postFiles(files, setDataLoaded){
         formData.append(files[i].name, files[i]);
     }
 
-    // var request = new XMLHttpRequest();
-    // request.open("POST", "api/upload_data");
-    // request.send(formData);
-    fetch("api/upload_data", {
-        method: 'post',
+    fetch('/api/upload_data', {
+        method: 'POST',
         body: formData,
-    })
+      }
+    )
     .then(response => response.json())
-    .then((data) => {console.log(data);})
     .then(() => {setDataLoaded(true)});
 }

@@ -1,17 +1,17 @@
 import React, {useState, useEffect} from 'react';
 import './App.css';
 
-import Welcome from './Welcome/Welcome';
-import Analyser from './Analyser/Analyser';
-import Navbar from './Navbar';
-import { dataExists } from './api/api';
+import Welcome from '../landing/Welcome.js';
+import Analyser from '../analyser/Analyser.js';
+import Navbar from '../navbar/Navbar.js';
+import { checkDataExists } from '../../api/api';
 
 const App = () => {
   const [dataLoaded, setDataLoaded] = useState(false);
   const [view, setView] = useState('Home')
 
   useEffect(() => {
-    dataExists(setDataLoaded);
+    checkDataExists(setDataLoaded);
   }, []);
 
   return (

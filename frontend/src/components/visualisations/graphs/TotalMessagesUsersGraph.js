@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react';
-import '../../App.css';
-import { fetchTotalMessagesUsers } from '../../api/api';
-import totalMessagesUserSample from '../../TestData/totalMessagesUserSample.json';
-import PieChart from '../BaseGraphs/PieChart';
+import '../../app/App.css';
+import { fetchTotalMessagesUsers } from '../../../api/api';
+import totalMessagesUserSample from '../../../TestData/totalMessagesUserSample.json';
+import PieChart from '../coreGraphs/PieChart';
 
 
 const TotalMessagesUsersGraph = (props) => {

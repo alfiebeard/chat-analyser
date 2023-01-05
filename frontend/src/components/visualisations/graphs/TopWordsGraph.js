@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react';
-import '../../App.css';
-import { fetchTopWords } from '../../api/api';
-import WordCloud from '../BaseGraphs/WordCloud';
-import topWordsSample from '../../TestData/topWordsSample.json';
+import '../../app/App.css';
+import { fetchTopWords } from '../../../api/api';
+import WordCloud from '../coreGraphs/WordCloud';
+import topWordsSample from '../../../TestData/topWordsSample.json';
 
 
 const TopWordsGraph = (props) => {

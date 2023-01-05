@@ -1,14 +1,14 @@
 import React, {useState, useEffect} from 'react';
-import '../App.css';
-import { fetchGeneralStatistics } from '../api/api';
-import { formatSeconds } from '../utils/timeUtils';
-import generalStatsSample from '../TestData/generalStatsSample.json';
+import '../app/App.css';
+import { fetchGeneralStatistics } from '../../api/api';
+import { convertSeconds } from '../../utils/timeUtils';
+import generalStatsSample from '../../TestData/generalStatsSample.json';
 
 
 const GeneralStatistics = (props) => {
   const [data, setData] = useState(null);
   useEffect(() => {if (props.dataLoaded) {
-    // fetchGeneralStatistics();
+    fetchGeneralStatistics();
     setData(generalStatsSample);
   }}, [props.dataLoaded]);
 
@@ -27,7 +27,7 @@ const GeneralStatistics = (props) => {
           <div><b>Total calls:</b> {data.total_calls}</div>
           <div><b>Average messages per day:</b> {Math.round((data.total_messages / (data.total_time / 86400)) * 100) / 100}</div>
           <div><b>Average message length:</b> {Math.round(data.mean_message_length * 100) / 100}</div>
-          <div><b>Longest silence:</b> {formatSeconds(data.longest_silence)}</div>
+          <div><b>Longest silence:</b> {convertSeconds(data.longest_silence)}</div>
         </div>
         :
         "No data"

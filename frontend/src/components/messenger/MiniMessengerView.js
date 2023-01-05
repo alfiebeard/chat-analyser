@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
-import '../App.css';
-import { fetchNthMessages } from '../api/api';
-import nthMessagesSample from '../TestData/nthMessagesSample.json';
+import '../app/App.css';
+import { fetchNthMessages } from '../../api/api';
+import nthMessagesSample from '../../TestData/nthMessagesSample.json';
 import Message from './Message';
 
 

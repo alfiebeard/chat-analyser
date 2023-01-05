@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
-import './App.css';
-import { clearData } from './api/api';
+import './Navbar.css';
+import { clearData } from '../../api/api';
 
 import SidebarLink from './SidebarLink';
 

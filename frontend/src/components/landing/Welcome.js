@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
-import '../App.css';
-import DragAndDropDirectory from '../Welcome/DragAndDropDirectory';
+import '../app/App.css';
+import DragAndDropDirectory from './DragAndDropDirectory';
 
 
 const Welcome = (props) => {
