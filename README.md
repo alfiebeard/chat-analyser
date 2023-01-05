@@ -34,15 +34,24 @@ source activate chat_analyser
 ```
 3. Install requirements.txt
 ```
+cd chat-anayser
 pip install -r requirements.txt
 ```
 4. Install groupchat_analyser package
 ```
 pip install -e groupchat_analyser
 ```
+5. Setup React GUI
+```
+cd ..
+cd frontend
+npm install
+npm run build
+```
 
 ## Running
 ```
+cd backend
 python app.py
 ```
 Navigate to http://127.0.0.1:5000/
