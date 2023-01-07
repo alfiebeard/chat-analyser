@@ -6,7 +6,6 @@ import SidebarLink from './SidebarLink';
 
 
 const Navbar = (props) => {
-
   return (
     <>
       <div className={"sidebar-item sidebar-title"}>
