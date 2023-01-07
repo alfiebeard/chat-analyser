@@ -1,0 +1,17 @@
+/* Large screens - multiple columns */
+@media (min-width: 992px) {
+    .content {
+        height: 100vh;
+        width: 100%;
+        margin: 0;
+    }
+}
+
+/* Small screens - single column view */
+@media (max-width: 991px) {
+    .content {
+        height: 100%;
+        width: 100%;
+        margin: 0;
+    }
+}
