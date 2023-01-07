@@ -7,10 +7,10 @@ import BarChart from '../coreGraphs/BarChart.js';
 
 const MessagesOverTimeGraph = (props) => {
   const [data, setData] = useState(null);
-  useEffect(() => {if (props.dataLoaded) {
-    // fetchMessagesOverTime('auto');
+  useEffect(() => {
+    fetchMessagesOverTime('auto');
     setData(messagesOverTimeSample);
-  }}, [props.dataLoaded]);
+  }, []);
 
   return (
     <div className={"block"}>

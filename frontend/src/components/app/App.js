@@ -2,7 +2,8 @@ import React, {useState, useEffect} from 'react';
 import './App.css';
 
 import Welcome from '../landing/Welcome.js';
-import Analyser from '../analyser/Analyser.js';
+import SummaryPage from '../summaryPage/SummaryPage.js';
+import AnalysisPage from '../analysisPage/AnalysisPage.js';
 import Navbar from '../navbar/Navbar.js';
 import { checkDataExists } from '../../api/api';
 
@@ -15,21 +16,28 @@ const App = () => {
   }, []);
 
   return (
-    <div className={"app row"}>
-      <div className={"col sidebar"}>
+    <div className={"app"}>
+      <div className={"sidebar position-fixed"}>
         <Navbar 
           view={view}
           setView={setView}
-          dataLoaded={dataLoaded} 
+          dataLoaded={dataLoaded}
+          setDataLoaded={setDataLoaded} 
         />
       </div>
-      <div className={"col main-content"}>
+      <div className={"main-content"}>
         {dataLoaded ?
-            <Analyser
+          <>
+            <SummaryPage
               display={view === 'Home'}
+              setDataLoaded={setDataLoaded}
+            />
+            <AnalysisPage
+              display={view === 'Analysis'}
               dataLoaded={dataLoaded}
               setDataLoaded={setDataLoaded}
             /> 
+          </>
           : 
             <Welcome 
               setDataLoaded={setDataLoaded} 

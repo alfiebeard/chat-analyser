@@ -8,10 +8,10 @@ import Message from './Message';
 const MiniMessengerView = (props) => {
   const [data, setData] = useState(null);
 
-  useEffect(() => {if (props.dataLoaded) {
-    // fetchNthMessages(0, 10);
+  useEffect(() => {
+    fetchNthMessages(0, 10);
     setData(nthMessagesSample["messages"]);
-  }}, [props.dataLoaded]);
+  }, []);
 
   return (
     <div className={"block"}>

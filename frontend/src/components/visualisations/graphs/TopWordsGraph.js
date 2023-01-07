@@ -8,16 +8,19 @@ import topWordsSample from '../../../TestData/topWordsSample.json';
 const TopWordsGraph = (props) => {
   const [data, setData] = useState(null);
 
-  useEffect(() => {if (props.dataLoaded) {
-    // fetchTopWords();
+  useEffect(() => {
+    fetchTopWords();
     setData(topWordsSample["words"]);
-  }}, [props.dataLoaded]);
+  }, []);
 
   return (
-    <div className={"h-100 block"}>
-      <WordCloud 
-        data={data} 
-      />
+    <div className={"h-100 block"} style={{"padding": 0}}>
+      {data ?
+        <WordCloud 
+          data={data}
+        />
+        : null
+      }
     </div>
   );
 }

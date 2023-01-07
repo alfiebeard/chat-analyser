@@ -7,10 +7,10 @@ import PieChart from '../coreGraphs/PieChart';
 
 const TotalMessagesUsersGraph = (props) => {
   const [data, setData] = useState(null);
-  useEffect(() => {if (props.dataLoaded) {
-    // fetchTotalMessagesUsers();
+  useEffect(() => {
+    fetchTotalMessagesUsers();
     setData(totalMessagesUserSample);
-  }}, [props.dataLoaded]);
+  }, []);
 
   return (
     <div className={"block"}>
