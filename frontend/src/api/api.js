@@ -22,10 +22,10 @@ export function fetchGeneralStatistics(){
 }
 
 
-export function fetchMessagesOverTime(time){
+export function fetchMessagesOverTime(time, split_by_users=false){
     // TODO: Explain this!
     // Fetch the messages over time
-    let params = new URLSearchParams({"interval": time}).toString();
+    let params = new URLSearchParams({"interval": time, "split_by_users": split_by_users}).toString();
     fetch("api/messages_over_time?" + params)
         .then(response => response.json())
         .then((data) => {console.log(data)});

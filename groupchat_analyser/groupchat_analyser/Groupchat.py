@@ -148,7 +148,7 @@ class Groupchat:
             "longest_silence": silences(self.df).iloc[0]["time_diff"].total_seconds()
         }
 
-    def messages_over_time(self, interval=None):
+    def messages_over_time(self, interval=None, split_by_users=False):
         if interval == "auto":
             if self.total_time.days < 30:
                 # Daily if there is less than 30 days of data
@@ -159,18 +159,31 @@ class Groupchat:
             else:
                 interval = "annual"
 
+        df_columns = ['datetime', 'content']
+        
         if interval == "daily":
-            grouped_by_day = self.df[['datetime', 'content']].groupby(pd.Grouper(key='datetime', axis=0, freq='D')).count()
-            grouped_by_day.index = grouped_by_day.index.strftime('%d %b')
-            grouped_by_day['datetime'] = grouped_by_day.index
-            return grouped_by_day.to_dict('list')
+            group_by = [pd.Grouper(key='datetime', axis=0, freq='D')]
+            str_time_format = '%d %b'
         elif interval == "monthly":
-            grouped_by_month = self.df[['datetime', 'content']].groupby(pd.Grouper(key='datetime', axis=0, freq='M')).count()
-            grouped_by_month.index = grouped_by_month.index.strftime('%b %y')
-            grouped_by_month['datetime'] = grouped_by_month.index
-            return grouped_by_month.to_dict('list')
+            group_by = [pd.Grouper(key='datetime', axis=0, freq='M')]
+            str_time_format = '%b %y'
         elif interval == "annual":
-            grouped_by_year = self.df[['datetime', 'content']].groupby(pd.Grouper(key='datetime', axis=0, freq='Y')).count()
-            grouped_by_year.index = grouped_by_year.index.strftime('%Y')
-            grouped_by_year['datetime'] = grouped_by_year.index
-            return grouped_by_year.to_dict('list')
+            group_by = [pd.Grouper(key='datetime', axis=0, freq='Y')]
+            str_time_format = '%Y'
+
+        if split_by_users:
+            self.df.sender_name = pd.Categorical(self.df.sender_name)   # Don't want to have missing sender names for some intervals.
+            group_by.append("sender_name")
+            df_columns.append("sender_name")
+
+        grouped_by_interval = self.df[df_columns].groupby(group_by).count()
+
+        if split_by_users:
+            grouped_by_interval.index = grouped_by_interval.index.set_levels([grouped_by_interval.index.levels[0].strftime(str_time_format), grouped_by_interval.index.levels[1]])
+            grouped_by_interval = grouped_by_interval.swaplevel()
+            grouped_by_interval['datetime'] = grouped_by_interval.index.get_level_values(1)
+            return grouped_by_interval.groupby(level=0).apply(lambda df: df.xs(df.name).to_dict('list')).to_dict()
+        else:
+            grouped_by_interval.index = grouped_by_interval.index.strftime(str_time_format)
+            grouped_by_interval['datetime'] = grouped_by_interval.index
+            return grouped_by_interval.to_dict('list')
