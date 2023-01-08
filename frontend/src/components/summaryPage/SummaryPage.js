@@ -25,7 +25,7 @@ const SummaryPage = (props) => {
           </Row>
           <Row className={"h-50 w-100 m-0"}>
             <Col lg={4} className={"h-100 p-2"}>
-              <MessagesOverTimeGraph />
+              <MessagesOverTimeGraph splitByUser={false} />
             </Col>
             <Col lg={4} className={"h-100 p-2"}>
               <TotalMessagesUsers />

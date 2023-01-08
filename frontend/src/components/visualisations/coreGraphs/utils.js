@@ -1,25 +1,50 @@
 import chroma from "chroma-js";
 
-export function setGraphData(x, y, label, color){
+export function setGraphData(data, x, y, label, color, stacked=false){
+    // If stacked - set number of colours equal to number of datasets.
+    if (stacked) {color = Object.keys(data).length}
+
     // If color is a number, e.g., 5, then get color scheme for this
     if (!isNaN(color)) {
         color = colorScheme(color)
     }
 
-    return {
-        labels: x,
-        datasets: [
+    if (stacked) {
+        const labels = data[Object.keys(data)[0]][x]
+        const datasets = Object.keys(data)
+            .map((user, i) => (
+                {
+                    label: user,
+                    data: data[user][y],
+                    // borderColor: 'rgb(75, 192, 192)',
+                    backgroundColor: color[i]
+                }
+            ))
+
+        return {
+            labels: labels,
+            datasets: datasets
+        }
+
+    } else {
+        const labels = data[x]
+        const datasets = [
             {
                 label: label,
-                data: y,
+                data: data[y],
                 // borderColor: 'rgb(75, 192, 192)',
                 backgroundColor: color
             }
         ]
+
+        return {
+            labels: labels,
+            datasets: datasets
+        }
     }
 }
 
-export function setOptions(title, xTitle=null, yTitle=null, showAxes=true, displayLegend=true){
+export function setOptions(title, xTitle=null, stacked=false, yTitle=null, showAxes=true, displayLegend=true){
     const xTitleOption = {
         display: false,
     }
@@ -56,11 +81,13 @@ export function setOptions(title, xTitle=null, yTitle=null, showAxes=true, displ
         scales : {
             x: {
                 title: xTitleOption,
-                display: showAxes
+                display: showAxes,
+                stacked: stacked
             },
             y : {
                 title: yTitleOption,
-                display: showAxes
+                display: showAxes,
+                stacked: stacked
             }
         },
         maintainAspectRatio: false

@@ -9,10 +9,10 @@ import { setGraphData, setOptions } from './utils';
 const PieChart = (props) => {
   return (
     <>
-      {props.x && props.y ? 
+      {props.data ? 
         <Pie
-          data={setGraphData(props.x, props.y, props.label, props.x.length)}
-          options={setOptions(props.title, props.xTitle, props.yTitle, false, false)}
+          data={setGraphData(props.data, props.x, props.y, props.label, props.x.length)}
+          options={setOptions(props.title, props.xTitle, props.yTitle, false, false, false)}
         />
         :
         null

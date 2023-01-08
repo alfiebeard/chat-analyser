@@ -10,9 +10,9 @@ const LineGraph = (props) => {
 
   return (
     <div>
-      {props.x && props.y ? 
+      {props.data ? 
         <Line
-          data={setGraphData(props.x, props.y, props.label, props.color)}
+          data={setGraphData(props.data, props.x, props.y, props.label, props.color)}
           options={setOptions(props.title, props.xTitle, props.yTitle)}
         />
         :

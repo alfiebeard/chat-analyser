@@ -9,10 +9,10 @@ import { setGraphData, setOptions } from './utils';
 const BarChart = (props) => {
   return (
     <>
-      {props.x && props.y ? 
+      {props.data ? 
         <Bar
-          data={setGraphData(props.x, props.y, props.label, props.color)}
-          options={setOptions(props.title, props.xTitle, props.yTitle)}
+          data={setGraphData(props.data, props.x, props.y, props.label, props.color, props.stacked)}
+          options={setOptions(props.title, props.xTitle, props.yTitle, props.stacked)}
         />
         :
         null

@@ -17,8 +17,9 @@ const TotalMessagesUsersGraph = (props) => {
       {data ?
         <PieChart
           title={"User Messages Sent"}
-          x={data['users']}
-          y={data['total_messages']}
+          data={data}
+          x={'users'}
+          y={'total_messages'}
           label={"User Total Messages"}
         />
         :

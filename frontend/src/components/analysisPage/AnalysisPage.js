@@ -14,16 +14,14 @@ const AnalysisPage = (props) => {
     <>
       {props.display ? 
         <div className={"p-2"}>
-					{/* <Row className={"w-100 m-0"}>
-						<Col lg={12} className={"h-100 p-2"}>
-							<TopWordsGraph dataLoaded={props.dataLoaded} />
-						</Col>
-					</Row> */}
-					<Row className={"w-100 m-0"}>
-						<Col lg={12} className={"h-100 p-2"}>
-							<MessagesOverTimeGraph />
-						</Col>
-					</Row>
+			<Row className={"w-100 m-0"}>
+				<Col lg={8} className={"h-100 p-2"}>
+					<MessagesOverTimeGraph splitByUser={true} />
+				</Col>
+				<Col lg={4} className={"h-100 p-2"}>
+					<TopWordsGraph />
+				</Col>
+			</Row>
         </div>
       : null
       }

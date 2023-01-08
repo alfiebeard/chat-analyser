@@ -1,15 +1,16 @@
 import React, {useState, useEffect} from 'react';
 import '../../app/App.css';
 import { fetchMessagesOverTime } from '../../../api/api.js';
-import messagesOverTimeSample from '../../../TestData/messagesOverTimeSample.json';
+import messagesOverTimeUserSample from '../../../TestData/messagesOverTimeUserSample.json';
 import BarChart from '../coreGraphs/BarChart.js';
 
 
 const MessagesOverTimeGraph = (props) => {
   const [data, setData] = useState(null);
+
   useEffect(() => {
-    fetchMessagesOverTime('auto');
-    setData(messagesOverTimeSample);
+    fetchMessagesOverTime('auto', props.splitByUser);
+    setData(messagesOverTimeUserSample);
   }, []);
 
   return (
@@ -17,8 +18,10 @@ const MessagesOverTimeGraph = (props) => {
       {data ?
         <BarChart
           title={"Total Messages Sent"}
-          x={data['datetime']}
-          y={data['content']}
+          x={'datetime'}
+          y={'content'}
+          data={data}
+          stacked={props.splitByUser}
           label={"Total Messages"}
           xTitle={"Month"}
           yTitle={"Messages"}
