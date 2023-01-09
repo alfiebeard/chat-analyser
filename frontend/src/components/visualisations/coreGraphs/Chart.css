@@ -1,0 +1,13 @@
+.chartControlsToggleButtonContainer {
+    position: relative;
+    height: 0;
+    width: 0;
+    right: 3.75rem;
+    float: right;
+}
+
+.chartControlsToggleButton {
+    padding: 0.2rem 0.4rem;
+    font-size: 0.7rem;
+    border-radius: 0.2rem;
+}

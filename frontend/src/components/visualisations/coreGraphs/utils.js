@@ -87,7 +87,8 @@ export function setOptions(title, xTitle=null, stacked=false, yTitle=null, showA
             y : {
                 title: yTitleOption,
                 display: showAxes,
-                stacked: stacked
+                stacked: stacked,
+                // max: 2500    // Add a max to fix y axis and prevent rescaling
             }
         },
         maintainAspectRatio: false
