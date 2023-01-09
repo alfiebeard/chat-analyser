@@ -12,32 +12,30 @@ import MiniMessengerView from '../messenger/MiniMessengerView.js';
 
 const SummaryPage = (props) => {
   return (
-    <>
-      {props.display ? 
-        <div className={"content p-2"}>
-          <Row className={"h-50 w-100 m-0"}>
-            <Col lg={4} className={"h-100 p-2"}>
-              <GeneralStatistics />
-            </Col>
-            <Col lg={8} className={"h-100 p-2"}>
-              <TopWordsGraph />
-            </Col>
-          </Row>
-          <Row className={"h-50 w-100 m-0"}>
-            <Col lg={4} className={"h-100 p-2"}>
-              <MessagesOverTimeGraph splitByUser={false} />
-            </Col>
-            <Col lg={4} className={"h-100 p-2"}>
-              <TotalMessagesUsers />
-            </Col>
-            <Col lg={4} className={"h-100 p-2"}>
-              <MiniMessengerView />
-            </Col>
-          </Row>
-        </div>
-      : null
-      }
-      </>
+    <div className={"content p-2"}>
+      <Row className={"h-50 w-100 m-0"}>
+        <Col lg={4} className={"h-100 p-2"}>
+          <GeneralStatistics />
+        </Col>
+        <Col lg={8} className={"h-100 p-2"}>
+          <TopWordsGraph />
+        </Col>
+      </Row>
+      <Row className={"h-50 w-100 m-0"}>
+        <Col lg={4} className={"h-100 p-2"}>
+          <MessagesOverTimeGraph
+            splitByUser={false}
+            showControls={false}
+          />
+        </Col>
+        <Col lg={4} className={"h-100 p-2"}>
+          <TotalMessagesUsers />
+        </Col>
+        <Col lg={4} className={"h-100 p-2"}>
+          <MiniMessengerView />
+        </Col>
+      </Row>
+    </div>
   );
 }
 

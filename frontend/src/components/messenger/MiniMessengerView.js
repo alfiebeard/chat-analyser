@@ -3,14 +3,15 @@ import '../app/App.css';
 import { fetchNthMessages } from '../../api/api';
 import nthMessagesSample from '../../TestData/nthMessagesSample.json';
 import Message from './Message';
+import NoDataChart from '../visualisations/coreGraphs/NoDataChart';
 
 
 const MiniMessengerView = (props) => {
   const [data, setData] = useState(null);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
-    fetchNthMessages(0, 10);
-    setData(nthMessagesSample["messages"]);
+    fetchNthMessages(setData, setError, 0, 10);
   }, []);
 
   return (
@@ -21,7 +22,10 @@ const MiniMessengerView = (props) => {
           message={message} 
         />
       )
-      : null
+      : 
+      <NoDataChart
+        error={error}
+      />
     }
     </div>
   );

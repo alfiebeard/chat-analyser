@@ -11,21 +11,20 @@ const AnalysisPage = (props) => {
 	// const [visualisations, setVisualisations] = allVisualisations
 
   return (
-    <>
-      {props.display ? 
-        <div className={"p-2"}>
-			<Row className={"w-100 m-0"}>
-				<Col lg={8} className={"h-100 p-2"}>
-					<MessagesOverTimeGraph splitByUser={true} />
-				</Col>
-				<Col lg={4} className={"h-100 p-2"}>
-					<TopWordsGraph />
-				</Col>
-			</Row>
-        </div>
-      : null
-      }
-      </>
+	<div className={"p-2"}>
+		<Row className={"w-100 m-0"}>
+			<Col lg={12} className={"p-2"}>
+				<MessagesOverTimeGraph
+					splitByUser={true}
+					showControls={true}
+					chartHeight={500}
+				/>
+			</Col>
+			<Col lg={4} className={"h-100 p-2"}>
+				<TopWordsGraph />
+			</Col>
+		</Row>
+	</div>
   );
 }
 

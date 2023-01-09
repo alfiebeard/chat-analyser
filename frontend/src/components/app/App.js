@@ -28,15 +28,10 @@ const App = () => {
       <div className={"main-content"}>
         {dataLoaded ?
           <>
-            <SummaryPage
-              display={view === 'Home'}
-              setDataLoaded={setDataLoaded}
-            />
-            <AnalysisPage
-              display={view === 'Analysis'}
-              dataLoaded={dataLoaded}
-              setDataLoaded={setDataLoaded}
-            /> 
+            {view === 'Home' ? <SummaryPage />
+              : view === 'Analysis' ? <AnalysisPage />
+              : null
+            }
           </>
           : 
             <Welcome 
