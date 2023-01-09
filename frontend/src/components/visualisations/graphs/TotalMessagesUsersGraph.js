@@ -1,30 +1,27 @@
 import React, {useState, useEffect} from 'react';
 import '../../app/App.css';
 import { fetchTotalMessagesUsers } from '../../../api/api';
-import totalMessagesUserSample from '../../../TestData/totalMessagesUserSample.json';
 import PieChart from '../coreGraphs/PieChart';
 
 
 const TotalMessagesUsersGraph = (props) => {
   const [data, setData] = useState(null);
+  const [error, setError] = useState(false);
+
   useEffect(() => {
-    fetchTotalMessagesUsers();
-    setData(totalMessagesUserSample);
+    fetchTotalMessagesUsers(setData, setError);
   }, []);
 
   return (
     <div className={"block"}>
-      {data ?
-        <PieChart
-          title={"User Messages Sent"}
-          data={data}
-          x={'users'}
-          y={'total_messages'}
-          label={"User Total Messages"}
-        />
-        :
-        <div>No data to display</div>
-      }
+      <PieChart
+        title={"User Messages Sent"}
+        data={data}
+        x={'users'}
+        y={'total_messages'}
+        label={"User Total Messages"}
+        error={error}
+      />
     </div>
   );
 }

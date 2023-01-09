@@ -1,0 +1,5 @@
+.waitingForApiSpinner {
+    position: relative;
+    top: calc(50% - 1rem);
+    left: calc(50% - 1rem);
+}

@@ -2,6 +2,7 @@ import React from 'react';
 import ReactWordcloud from 'react-wordcloud';
 import 'tippy.js/dist/tippy.css';
 import 'tippy.js/animations/scale.css';
+import NoDataChart from './NoDataChart';
 
 
 const WordCloud = (props) => {
@@ -29,7 +30,9 @@ const WordCloud = (props) => {
                     options={options}
                 />
                 :
-                null
+                <NoDataChart 
+                    error={props.error}
+                />
             }
         </>
   );

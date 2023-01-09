@@ -2,14 +2,15 @@ import React, {useState, useEffect} from 'react';
 import '../app/App.css';
 import { fetchGeneralStatistics } from '../../api/api';
 import { convertSeconds } from '../../utils/timeUtils';
-import generalStatsSample from '../../TestData/generalStatsSample.json';
+import NoDataChart from '../visualisations/coreGraphs/NoDataChart';
 
 
 const GeneralStatistics = (props) => {
   const [data, setData] = useState(null);
+  const [error, setError] = useState(false);
+
   useEffect(() => {
-    fetchGeneralStatistics();
-    setData(generalStatsSample);
+    fetchGeneralStatistics(setData, setError);
   }, []);
 
   return (
@@ -31,7 +32,10 @@ const GeneralStatistics = (props) => {
             <div><b>Longest silence:</b> {convertSeconds(data.longest_silence)}</div>
           </div>
         </>
-        : "No Data"
+        :
+        <NoDataChart
+          error={error}
+        />
       }
     </div>
   );

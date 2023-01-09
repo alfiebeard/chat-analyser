@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from 'react';
-import '../../App.css';
 import {Chart as Chartjs} from 'chart.js/auto';
 import {Chart} from 'chart.js';
 import {Line} from 'react-chartjs-2';
 import { setGraphData, setOptions } from './utils';
+import NoDataChart from './NoDataChart';
 
 
 const LineGraph = (props) => {
@@ -16,7 +16,9 @@ const LineGraph = (props) => {
           options={setOptions(props.title, props.xTitle, props.yTitle)}
         />
         :
-        null
+        <NoDataChart 
+          error={props.error}
+        />
       }
     </div>
   );
