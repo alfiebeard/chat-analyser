@@ -13,7 +13,7 @@ const LineGraph = (props) => {
       {props.data ? 
         <Line
           data={setGraphData(props.data, props.x, props.y, props.label, props.color)}
-          options={setOptions(props.title, props.xTitle, props.yTitle)}
+          options={setOptions({"title": props.title, "xTitle": props.xTitle, "yTitle": props.yTitle})}
         />
         :
         <NoDataChart 

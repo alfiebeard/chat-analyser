@@ -46,7 +46,7 @@ class Groupchat:
         return self.df.iloc[n]
 
     def nth_messages(self, m, n):
-        return copy.deepcopy(self.df.iloc[m: n, :])
+        return self.df.loc[m: n].copy()
 
     # FILTERS
 
@@ -134,7 +134,7 @@ class Groupchat:
 
     def summary(self):
         return {
-            "users": self.users,    # sort by most active
+            "users": self.users,    # TODO: sort by most active
             "name": self.name,
             "image": self.image,
             "total_messages": self.total_messages,
@@ -148,7 +148,9 @@ class Groupchat:
             "longest_silence": silences(self.df).iloc[0]["time_diff"].total_seconds()
         }
 
-    def messages_over_time(self, interval=None, split_by_users=False):
+    def messages_over_time(self, interval="auto", split_by_users=False):
+        interval_options = {"daily": "Day", "monthly": "Month", "annual": "Year"}
+
         if interval == "auto":
             if self.total_time.days < 30:
                 # Daily if there is less than 30 days of data
@@ -163,7 +165,7 @@ class Groupchat:
         
         if interval == "daily":
             group_by = [pd.Grouper(key='datetime', axis=0, freq='D')]
-            str_time_format = '%d %b'
+            str_time_format = '%d %b %y'
         elif interval == "monthly":
             group_by = [pd.Grouper(key='datetime', axis=0, freq='M')]
             str_time_format = '%b %y'
@@ -182,8 +184,13 @@ class Groupchat:
             grouped_by_interval.index = grouped_by_interval.index.set_levels([grouped_by_interval.index.levels[0].strftime(str_time_format), grouped_by_interval.index.levels[1]])
             grouped_by_interval = grouped_by_interval.swaplevel()
             grouped_by_interval['datetime'] = grouped_by_interval.index.get_level_values(1)
-            return grouped_by_interval.groupby(level=0).apply(lambda df: df.xs(df.name).to_dict('list')).to_dict()
+            data = grouped_by_interval.groupby(level=0).apply(lambda df: df.xs(df.name).to_dict('list')).to_dict()
         else:
             grouped_by_interval.index = grouped_by_interval.index.strftime(str_time_format)
             grouped_by_interval['datetime'] = grouped_by_interval.index
-            return grouped_by_interval.to_dict('list')
+            data = grouped_by_interval.to_dict('list')
+
+        metadata = {"x_scale": interval, "x_scale_options": interval_options}
+        grouped_by_interval_dict = {"data": data, "metadata": metadata}
+
+        return grouped_by_interval_dict

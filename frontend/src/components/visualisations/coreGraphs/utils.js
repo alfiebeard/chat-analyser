@@ -1,22 +1,39 @@
 import chroma from "chroma-js";
+import moment from "moment";
 
-export function setGraphData(data, x, y, label, color, stacked=false){
-    // If stacked - set number of colours equal to number of datasets.
-    if (stacked) {color = Object.keys(data).length}
+export function setGraphData(data, x, y, label, color, stackable=false, displayStacked=false){
+    if (stackable && displayStacked) {
+        // If data stackable and to be displayed as stacked - set number of colours equal to number of datasets.
+        color = Object.keys(data).length
+    }
+    else if (stackable && !displayStacked) {
+        // If data stackable but not to be displayed stacked, i.e., combined, combine the data.
+        const dataX = Object.values(data)[0][x];     // Get x data from first value in object
+        var dataY = Array(dataX.length).fill(0);  // Create zero array for dataY
+
+        // Now sum each of the y arrays of the datasets and add to dataY.
+        Object.values(data).forEach((dataset) => {
+            dataY = dataY.map((v, i) => v + dataset[y][i])
+        })
+        
+        // Reset data to these new sets
+        data = {};
+        data[x] = dataX;
+        data[y] = dataY;
+    }
 
     // If color is a number, e.g., 5, then get color scheme for this
     if (!isNaN(color)) {
         color = colorScheme(color)
     }
 
-    if (stacked) {
+    if (stackable && displayStacked) {
         const labels = data[Object.keys(data)[0]][x]
         const datasets = Object.keys(data)
             .map((user, i) => (
                 {
                     label: user,
                     data: data[user][y],
-                    // borderColor: 'rgb(75, 192, 192)',
                     backgroundColor: color[i]
                 }
             ))
@@ -32,7 +49,6 @@ export function setGraphData(data, x, y, label, color, stacked=false){
             {
                 label: label,
                 data: data[y],
-                // borderColor: 'rgb(75, 192, 192)',
                 backgroundColor: color
             }
         ]
@@ -44,56 +60,47 @@ export function setGraphData(data, x, y, label, color, stacked=false){
     }
 }
 
-export function setOptions(title, xTitle=null, stacked=false, yTitle=null, showAxes=true, displayLegend=true){
+
+export function setOptions(options){
     const xTitleOption = {
-        display: false,
+        display: options.hasOwnProperty("xTitle") ? true : false,
+        text: options.hasOwnProperty("xTitle") ? options.xTitle : null,
     }
 
     const yTitleOption = {
-        display: false,
-    }
-
-    if (xTitle) {
-        const xTitleOption = {
-            display: true,
-            text: xTitle,
-        }
-    }
-
-    if (yTitle) {
-        const yTitleOption = {
-            display: true,
-            text: yTitle,
-        }
+        display: options.hasOwnProperty("yTitle") ? true : false,
+        text: options.hasOwnProperty("yTitle") ? options.yTitle : null,
     }
 
     return {
         plugins: {
             title: {
-                display: true,
-                text: title
+                display: options.hasOwnProperty("title") ? true : false,
+                text: options.hasOwnProperty("title") ? options.title : null
             },
             legend: {
-                display: displayLegend,
+                display: options.hasOwnProperty("showLegend") ? options.showLegend : true,
                 position: 'bottom'
             }
         },
         scales : {
             x: {
                 title: xTitleOption,
-                display: showAxes,
-                stacked: stacked
+                display: options.hasOwnProperty("showAxes") ? options.showAxes : true,
+                stacked: options.hasOwnProperty("stackable") ? options.stackable : false
             },
             y : {
                 title: yTitleOption,
-                display: showAxes,
-                stacked: stacked,
+                display: options.hasOwnProperty("showAxes") ? options.showAxes : true,
+                stacked: options.hasOwnProperty("stackable") ? options.stackable : false,
+                max: options.hasOwnProperty("maxY") ? options.maxY : null
                 // max: 2500    // Add a max to fix y axis and prevent rescaling
             }
         },
         maintainAspectRatio: false
     }
 }
+
 
 function colorScheme(n, shuffle=true){
     const scheme = chroma.scale('Spectral');
@@ -107,4 +114,35 @@ function colorScheme(n, shuffle=true){
     }
 
     return palette
+}
+
+
+export function getDataX(data, x, stackable=false) {
+    if (stackable) {
+        // If data stackable
+        return Object.values(data)[0][x];     // Get x data from first value in object
+    }
+    else {
+        return data[x];
+    }
+}
+
+
+export function filterDataByX(data, x, y, startIndex, endIndex, stackable=false) {
+    const filteredData = {}
+    if (stackable) {
+        for (let xItem in data) {
+            filteredData[xItem] = {}
+            const filteredX = data[xItem][x].filter((_, index) => index >= startIndex && index <= endIndex);
+            const filteredY = data[xItem][y].filter((_, index) => index >= startIndex && index <= endIndex);
+            filteredData[xItem][x] = filteredX;
+            filteredData[xItem][y] = filteredY;
+        }
+        return filteredData
+    }
+    else {
+        filteredData[x] = data[x].filter((_, index) => index >= startIndex && index <= endIndex);
+        filteredData[y] = data[y].filter((_, index) => index >= startIndex && index <= endIndex);
+        return filteredData
+    }
 }

@@ -12,7 +12,7 @@ const PieChart = (props) => {
       {props.data ? 
         <Pie
           data={setGraphData(props.data, props.x, props.y, props.label, props.data[props.x].length)}
-          options={setOptions(props.title, props.xTitle, props.yTitle, false, false, false)}
+          options={setOptions({"title": props.title, "xTitle": props.xTitle, "yTitle": props.yTitle, "showLegend": false, "showAxes": false})}
         />
         :
         <NoDataChart 
