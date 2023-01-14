@@ -35,6 +35,17 @@ export function fetchMessagesOverTime(setData, setError, time, split_by_users=fa
 }
 
 
+export function fetchMessagesByTime(setData, setError, time, split_by_users=false){
+    // TODO: Explain this!
+    // Fetch the messages by time
+    let params = new URLSearchParams({"interval": time, "split_by_users": split_by_users}).toString();
+    fetch("api/messages_by_period?" + params)
+        .then(response => response.json())
+        .then((data) => {setData(data)})
+        .catch(() => {setError(true)});
+}
+
+
 export function fetchTotalMessagesUsers(setData, setError){
     // TODO: Explain this!
     fetch("api/total_messages_users")

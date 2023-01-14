@@ -3,6 +3,7 @@ import {Container, Row, Col} from 'react-bootstrap';
 
 import TopWordsGraph from '../visualisations/graphs/TopWordsGraph';
 import MessagesOverTimeGraph from '../visualisations/graphs/MessagesOverTimeGraph';
+import MessagesByTimeGraph from '../visualisations/graphs/MessagesByTimeGraph';
 
 
 const AnalysisPage = (props) => {
@@ -15,6 +16,13 @@ const AnalysisPage = (props) => {
 		<Row className={"w-100 m-0"}>
 			<Col lg={12} className={"p-2"}>
 				<MessagesOverTimeGraph
+					splitByUser={true}
+					showControls={true}
+					chartHeight={500}
+				/>
+			</Col>
+			<Col lg={12} className={"p-2"}>
+				<MessagesByTimeGraph
 					splitByUser={true}
 					showControls={true}
 					chartHeight={500}
