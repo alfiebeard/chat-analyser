@@ -29,7 +29,7 @@ const ChartControls = (props) => {
         </Form.Label>
         <Form.Select
           className={"chartControlGroupItem chartControlSelect"}
-          selected={props.xScale}
+          value={props.xScale}
           onChange={props.changeXScale}
           size={"sm"}
         >
