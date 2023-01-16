@@ -196,39 +196,41 @@ class Groupchat:
         return grouped_by_interval_dict
 
     def messages_by_period(self, period="auto", split_by_users=False):
+        df = self.df.copy()
         period_options = {"hour": "Hour", "day": "Day", "month": "Month"}
 
         if period == "auto":
             period = "hour"
 
-        df_columns = ['datetime', 'content', 'period']
+        df_columns = ['content', 'period']
         group_by = ['period']
 
         if period == "hour":
             # Hour of the day
             str_time_format = '%H'
-            self.df['period'] = self.df['datetime'].dt.strftime(str_time_format)
-            self.df['period'] = self.df['period'] + ":00"
+            df['period'] = df['datetime'].dt.strftime(str_time_format)
+            df['period'] = df['period'] + ":00"
         elif period == "day":
             # Day of week
             str_time_format = '%A'
             period_order = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
-            self.df['period'] = self.df['datetime'].dt.strftime(str_time_format)
-            self.df.period = pd.Categorical(self.df.period, categories=period_order, ordered=True)
+            df['period'] = df['datetime'].dt.strftime(str_time_format)
+            df.period = pd.Categorical(df.period, categories=period_order, ordered=True)
         elif period == "month":
             # Month of year
             str_time_format = '%b'
             period_order = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-            self.df['period'] = self.df['datetime'].dt.strftime(str_time_format)
-            self.df.period = pd.Categorical(self.df.period, categories=period_order, ordered=True)
+            df['period'] = df['datetime'].dt.strftime(str_time_format)
+            df.period = pd.Categorical(df.period, categories=period_order, ordered=True)
 
+        # TODO: average mode, which computes the average per hour, day, month.
 
         if split_by_users:
-            self.df.sender_name = pd.Categorical(self.df.sender_name)   # Don't want to have missing sender names for some intervals.
+            df.sender_name = pd.Categorical(df.sender_name)   # Don't want to have missing sender names for some intervals.
             group_by.append("sender_name")
             df_columns.append("sender_name")
 
-        grouped_by_interval = self.df[df_columns].groupby(group_by).count()
+        grouped_by_interval = df[df_columns].groupby(group_by).count()
 
         if split_by_users:
             grouped_by_interval = grouped_by_interval.swaplevel()
