@@ -1,7 +1,9 @@
 import chroma from "chroma-js";
 import moment from "moment";
+import { Chart } from 'chart.js';
+import { shuffleArray } from "../../../utils/mathUtils";
 
-export function setGraphData(data, x, y, label, color, stackable=false, displayStacked=false){
+export function setGraphData(data, x, y, label, color, stackable=false, displayStacked=false, alpha=1){
     if (stackable && displayStacked) {
         // If data stackable and to be displayed as stacked - set number of colours equal to number of datasets.
         color = Object.keys(data).length
@@ -24,7 +26,7 @@ export function setGraphData(data, x, y, label, color, stackable=false, displayS
 
     // If color is a number, e.g., 5, then get color scheme for this
     if (!isNaN(color)) {
-        color = colorScheme(color)
+        color = colorScheme(color, alpha)
     }
 
     if (stackable && displayStacked) {
@@ -72,6 +74,11 @@ export function setOptions(options){
         text: options.hasOwnProperty("yTitle") ? options.yTitle : null,
     }
 
+    var legendOnClick = Chart.defaults.plugins.legend.onClick;
+    if (options.hasOwnProperty("radar")) {
+        legendOnClick = options.radar ? radarLegendOnClick : null
+    }
+
     return {
         plugins: {
             title: {
@@ -80,10 +87,12 @@ export function setOptions(options){
             },
             legend: {
                 display: options.hasOwnProperty("showLegend") ? options.showLegend : true,
-                position: 'bottom'
+                position: 'bottom',
+                onClick: legendOnClick
             }
         },
-        scales : {
+        scale : options.hasOwnProperty("radar") ? {min: 0} : null,
+        scales : options.hasOwnProperty("radar") ? null : {
             x: {
                 title: xTitleOption,
                 display: options.hasOwnProperty("showAxes") ? options.showAxes : true,
@@ -94,7 +103,6 @@ export function setOptions(options){
                 display: options.hasOwnProperty("showAxes") ? options.showAxes : true,
                 stacked: options.hasOwnProperty("stackable") ? options.stackable : false,
                 max: options.hasOwnProperty("maxY") ? options.maxY : null
-                // max: 2500    // Add a max to fix y axis and prevent rescaling
             }
         },
         maintainAspectRatio: false
@@ -102,18 +110,33 @@ export function setOptions(options){
 }
 
 
-function colorScheme(n, shuffle=true){
+function colorScheme(n, alpha=1, shuffle=false){
     const scheme = chroma.scale('Spectral');
-    const palette = [];
+    var palette = [];
     for (let i=0; i<n; i++){
-        palette.push(scheme(i / n).hex());
+        palette.push(scheme(i / n).alpha(alpha).hex());
     }
 
     if (shuffle) {
-
+        palette = shuffleArray(palette);
     }
 
     return palette
+}
+
+
+function radarLegendOnClick(e, legendItem, legend) {
+    // Hide all other legend items and change the state of the selected legendItem.
+    let chart = legend.chart;
+    // .forEach(function (meta) {
+    //     meta.hidden = meta.hidden === null ? !ci.data.datasets[index].hidden : null;
+    // });
+            
+    chart._metasets.forEach(function(ds) {
+        if (ds.label === legendItem.text) {ds.hidden = !ds.hidden || null}
+        else {ds.hidden = true}
+    });
+    chart.update();
 }
 
 
