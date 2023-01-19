@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import '../../app/App.css';
 import { fetchMessagesByTime } from '../../../api/api.js';
-import BarChart from '../coreGraphs/BarChart.js';
+import RadarChart from '../coreGraphs/RadarChart.js';
 
 
 const MessagesByTimeGraph = (props) => {
@@ -20,14 +20,14 @@ const MessagesByTimeGraph = (props) => {
 
   return (
     <div className={"block"}>
-      <BarChart
+      <RadarChart
         title={"Total Messages By Time"}
         x={'datetime'}
         y={'content'}
         label={"Total Messages"}
         xTitle={data ? data.metadata.x_scale_options[data.metadata.x_scale] : ""}
         yTitle={"Messages"}
-        color={'rgb(75, 192, 192)'}
+        color={'rgba(192, 192, 75, 0.6)'}
         height={props.chartHeight}
         data={data}
         updateData={updateData}
