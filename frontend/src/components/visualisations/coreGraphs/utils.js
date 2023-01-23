@@ -110,6 +110,145 @@ export function setOptions(options){
 }
 
 
+export function setHeatmapData(data, x, y, globalMax=true){
+    // Transform the data into heatmap form
+    var datasets = [];
+    const settings = {borderWidth: 1, borderRadius: {topLeft: 10, topRight: 10, bottomLeft: 10, bottomRight: 10}, borderSkipped: false}
+    const colorScheme = chroma.scale('YlGn').gamma(0.25);
+    const maxY = maxData(data, y);
+
+    for (const user in data) {
+        var userData = []
+        var colours = []
+        const userMaxY = Math.max(...data[user][y])
+        for (var i=0; i < data[user][x].length; i++) {
+            userData.push({x: [i, i+1], y: user, v: data[user][y][i], d: data[user][x][i]})
+            if (globalMax) {
+                colours.push(colorScheme(data[user][y][i] / maxY));
+            }
+            else {
+                colours.push(colorScheme(data[user][y][i] / userMaxY));
+            }
+        }
+        datasets.push({label: user, data: userData, backgroundColor: colours,  hoverBackgroundColor: colours, hoverBorderWidth: 2, ...settings});
+    }
+
+    console.log(datasets);
+
+    return {
+        datasets: datasets
+    }
+}
+
+
+function maxData(data, axis) {
+    return Math.max.apply(Math, Object.values(data).map((userData) => {
+        return Math.max(...userData[axis])
+    }))
+}
+
+export function heatmapMaxDataX(data, axis) {
+    return Object.values(data)[0][axis].length
+}
+
+
+export function setHeatmapOptions(options){
+    const xTitleOption = {
+        display: options.hasOwnProperty("xTitle") ? true : false,
+        text: options.hasOwnProperty("xTitle") ? options.xTitle : null,
+    }
+
+    const yTitleOption = {
+        display: options.hasOwnProperty("yTitle") ? true : false,
+        text: options.hasOwnProperty("yTitle") ? options.yTitle : null,
+    }
+
+    return {
+        plugins: {
+            title: {
+                display: options.hasOwnProperty("title") ? true : false,
+                text: options.hasOwnProperty("title") ? options.title : null
+            },
+            legend: {
+                display: options.hasOwnProperty("showLegend") ? options.showLegend : true,
+                position: 'bottom',
+                labels: {
+                    generateLabels(chart) {
+                      const data = chart.data;
+                      if (data.labels.length && data.datasets.length) {
+                        const {labels: {pointStyle}} = chart.legend.options;
+            
+                        return data.labels.map((label, i) => {
+                          const meta = chart.getDatasetMeta(i);
+                          const style = meta.controller.getStyle(i);
+                          
+                          return {
+                            text: label,
+                            fillStyle: style.backgroundColor,
+                            strokeStyle: style.borderColor,
+                            lineWidth: style.borderWidth,
+                            pointStyle: pointStyle,
+                            hidden: meta.hidden,
+                            index: i
+                          };
+                        });
+                      }
+                      return [];
+                    }
+                },
+                onClick: function(e, legendItem, legend) {
+                    // Hide all other legend items and change the state of the selected legendItem.
+                    let chart = legend.chart;
+
+                    chart._metasets.forEach(function(ds) {
+                        if (ds.label === legendItem.text) {ds.hidden = !ds.hidden || null}
+                    });
+                    chart.update();
+                }
+            },
+            tooltip: {
+                callbacks: {
+                    label: function(tooltipItem) {
+                        const tooltip = tooltipItem.dataset.data[tooltipItem.dataIndex]
+                        return tooltip.d + ': ' + tooltip.v;
+                    }
+                }
+            }
+        },
+        indexAxis: 'y',
+        scales : {
+            x: {
+                title: xTitleOption,
+                display: true,
+                stacked: true,
+                min: 0,
+                max: options.hasOwnProperty("maxX") ? options.maxX : null,
+                grid: {
+                    display: false
+                },
+                ticks: {
+                    color: "transparent",
+                }
+            },
+            y : {
+                title: yTitleOption,
+                display: true,
+                stacked: true,
+                grid : {
+                    display: false,
+                    drawBorder: false
+                }
+            }
+        },
+        maintainAspectRatio: false,
+        animation: {
+            duration: 0
+        },
+        categoryPercentage: 1
+    }
+}
+
+
 function colorScheme(n, alpha=1, shuffle=false){
     const scheme = chroma.scale('Spectral');
     var palette = [];
