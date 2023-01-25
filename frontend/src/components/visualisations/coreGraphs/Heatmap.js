@@ -43,41 +43,52 @@ const Heatmap = (props) => {
       afterDraw: function(chart) {
       var ctx = chart.ctx;
       var xAxis = chart.scales['x'];
+
+      if (chart._metasets[0].data.length === 0) return;    // If no data - don't draw ticks
       const barWidth = chart._metasets[0].data[0].width;
-      console.log(xAxis.ticks);
+      
       // loop through ticks array
+      // for (var tick = 0; tick < numTicks; tick++){
       xAxis.ticks.forEach((tick, index) => {
         if (index === xAxis.ticks.length - 1) return;
-        const xPos = xAxis.getPixelForTick(index);
-        const newXPos = xPos + barWidth / 2
-
-        // Draw tick line
+        
+        // Tick constants
         const tickHeight = 8;
-        ctx.beginPath();
-        ctx.lineWidth = 1;
-        ctx.strokeStyle = Chart.defaults.borderColor;
-        ctx.moveTo(newXPos, chart.chartArea.bottom);
-        ctx.lineTo(newXPos, chart.chartArea.bottom + tickHeight);
-        ctx.stroke();
-        ctx.closePath();
+        const tickLineWidth = 1;
+        const tickColor = Chart.defaults.borderColor;
+        const textBaseline = 'middle';
+        const textAlign = 'center';
+        const textColor = '#666';
+        const textYPadding = 33;
 
-        // Draw tick label
-        var yPos = xAxis.bottom;
-        var yPadding = 33;
-        ctx.save();
-        ctx.textBaseline = 'middle';
-        ctx.textAlign = 'center';
-        ctx.fillStyle = '#666';
-        // Fill with the data from the chart, i.e., the date ('d')
-        var tickText = chart.data.datasets[0].data[0].d
-        // If tick exists show it
-        if (tick.value < chart.data.datasets[0].data.length) {
-          tickText = chart.data.datasets[0].data[tick.value].d;
+        // If tick is an integer and exists in data - draw it and add label - can only be integer
+        if (Number.isInteger(tick.value) && tick.value < chart.data.datasets[0].data.length) {
+          // Tick position - shifted to center of bar
+          const xPos = xAxis.getPixelForTick(index) + barWidth / 2;
+
+          // Draw tick
+          ctx.beginPath();
+          ctx.lineWidth = tickLineWidth;
+          ctx.strokeStyle = tickColor
+          ctx.moveTo(xPos, chart.chartArea.bottom);
+          ctx.lineTo(xPos, chart.chartArea.bottom + tickHeight);
+          ctx.stroke();
+          ctx.closePath();
+
+          // Draw tick label
+          var yPos = xAxis.bottom;
+          var yPadding = textYPadding;
+          ctx.save();
+          ctx.textBaseline = textBaseline;
+          ctx.textAlign = textAlign;
+          ctx.fillStyle = textColor;
+          const tickText = chart.data.datasets[0].data[tick.value].d;
+          ctx.fillText(tickText, xPos, yPos - yPadding);
+          ctx.restore();
         }
-        ctx.fillText(tickText, newXPos, yPos - yPadding);
-        ctx.restore();
-      });}
+      })
     }
+  }
   ]
 
   const selectDeselectAll = () => {
@@ -105,8 +116,8 @@ const Heatmap = (props) => {
           <div style={{"height": props.height !== undefined ? props.height : "100%"}}>
             <Bar
               ref={chartRef}
-              data={setHeatmapData(filterDataByX(props.data.data, props.x, props.y, startXIndex, endXIndex, props.stackable), props.x, props.y)}
-              options={setHeatmapOptions({"title": props.title, "xTitle": props.xTitle, "yTitle": props.yTitle, "maxX": heatmapMaxDataX(props.data.data, props.x)})}
+              data={setHeatmapData(filterDataByX(props.data.data, props.x, props.y, startXIndex, endXIndex, props.stackable), props.x, props.y, props.color)}
+              options={setHeatmapOptions({"title": props.title, "xTitle": props.xTitle, "yTitle": props.yTitle, "maxX": endXIndex - startXIndex + 1})}
               plugins={plugins}
             />
           </div>
