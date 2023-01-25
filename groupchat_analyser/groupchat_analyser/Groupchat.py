@@ -6,6 +6,7 @@ from groupchat_analyser.utils.cluster_analysis import cluster_by_time, conversat
 from groupchat_analyser.utils.general_analysis import *
 from groupchat_analyser.utils.user_analysis import *
 from groupchat_analyser.utils.text_analysis import message_length, word_mentions, phrase_mentions, most_used_words, all_words
+from groupchat_analyser.utils.group_by import *
 
 
 class Groupchat:
@@ -149,99 +150,19 @@ class Groupchat:
         }
 
     def messages_over_time(self, interval="auto", split_by_users=False):
-        interval_options = {"daily": "Day", "monthly": "Month", "annual": "Year"}
+        interval = get_over_time_interval(interval, self.total_time)
+        return group_over_time(self.df, 'content', interval, split_by_users=split_by_users)
 
-        if interval == "auto":
-            if self.total_time.days < 30:
-                # Daily if there is less than 30 days of data
-                interval = "daily"
-            elif self.total_time.days < 900:
-                # Monthly if there is less than 30 months of data
-                interval = "monthly"
-            else:
-                interval = "annual"
-
-        df_columns = ['datetime', 'content']
-        
-        if interval == "daily":
-            group_by = [pd.Grouper(key='datetime', axis=0, freq='D')]
-            str_time_format = '%d %b %y'
-        elif interval == "monthly":
-            group_by = [pd.Grouper(key='datetime', axis=0, freq='M')]
-            str_time_format = '%b %y'
-        elif interval == "annual":
-            group_by = [pd.Grouper(key='datetime', axis=0, freq='Y')]
-            str_time_format = '%Y'
-
-        if split_by_users:
-            self.df.sender_name = pd.Categorical(self.df.sender_name)   # Don't want to have missing sender names for some intervals.
-            group_by.append("sender_name")
-            df_columns.append("sender_name")
-
-        grouped_by_interval = self.df[df_columns].groupby(group_by).count()
-
-        if split_by_users:
-            grouped_by_interval.index = grouped_by_interval.index.set_levels([grouped_by_interval.index.levels[0].strftime(str_time_format), grouped_by_interval.index.levels[1]])
-            grouped_by_interval = grouped_by_interval.swaplevel()
-            grouped_by_interval['datetime'] = grouped_by_interval.index.get_level_values(1)
-            data = grouped_by_interval.groupby(level=0).apply(lambda df: df.xs(df.name).to_dict('list')).to_dict()
-        else:
-            grouped_by_interval.index = grouped_by_interval.index.strftime(str_time_format)
-            grouped_by_interval['datetime'] = grouped_by_interval.index
-            data = grouped_by_interval.to_dict('list')
-
-        metadata = {"x_scale": interval, "x_scale_options": interval_options}
-        grouped_by_interval_dict = {"data": data, "metadata": metadata}
-
-        return grouped_by_interval_dict
+    def message_lengths_over_time(self, interval="auto", split_by_users=False):
+        df = message_length(self.df)
+        interval = get_over_time_interval(interval, self.total_time)
+        return group_over_time(df, 'content_length', interval, aggregation="mean", split_by_users=split_by_users)
 
     def messages_by_period(self, period="auto", split_by_users=False):
-        df = self.df.copy()
-        period_options = {"hour": "Hour", "day": "Day", "month": "Month"}
+        period = get_period(period)
+        return group_by_period(self.df, 'content', period, split_by_users=split_by_users)
 
-        if period == "auto":
-            period = "hour"
-
-        df_columns = ['content', 'period']
-        group_by = ['period']
-
-        if period == "hour":
-            # Hour of the day
-            str_time_format = '%H'
-            df['period'] = df['datetime'].dt.strftime(str_time_format)
-            df['period'] = df['period'] + ":00"
-        elif period == "day":
-            # Day of week
-            str_time_format = '%A'
-            period_order = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
-            df['period'] = df['datetime'].dt.strftime(str_time_format)
-            df.period = pd.Categorical(df.period, categories=period_order, ordered=True)
-        elif period == "month":
-            # Month of year
-            str_time_format = '%b'
-            period_order = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-            df['period'] = df['datetime'].dt.strftime(str_time_format)
-            df.period = pd.Categorical(df.period, categories=period_order, ordered=True)
-
-        # TODO: average mode, which computes the average per hour, day, month.
-
-        if split_by_users:
-            df.sender_name = pd.Categorical(df.sender_name)   # Don't want to have missing sender names for some intervals.
-            group_by.append("sender_name")
-            df_columns.append("sender_name")
-
-        grouped_by_interval = df[df_columns].groupby(group_by).count()
-
-        if split_by_users:
-            grouped_by_interval = grouped_by_interval.swaplevel()
-            grouped_by_interval['datetime'] = grouped_by_interval.index.get_level_values(1)
-            data = grouped_by_interval.groupby(level=0).apply(lambda df: df.xs(df.name).to_dict('list')).to_dict()
-        else:
-            grouped_by_interval['datetime'] = grouped_by_interval.index
-            data = grouped_by_interval.to_dict('list')
-
-        metadata = {"x_scale": period, "x_scale_options": period_options}
-        grouped_by_interval_dict = {"data": data, "metadata": metadata}
-
-        return grouped_by_interval_dict
-
+    def message_lengths_by_period(self, period="auto", split_by_users=False):
+        df = message_length(self.df)
+        period = get_period(period)
+        return group_by_period(df, 'content_length', period, aggregation="mean", split_by_users=split_by_users)
