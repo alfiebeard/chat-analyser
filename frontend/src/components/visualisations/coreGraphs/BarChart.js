@@ -82,7 +82,7 @@ const BarChart = (props) => {
           <div style={{"height": props.height !== undefined ? props.height : "100%"}}>
             <Bar
               ref={chartRef}
-              data={setGraphData(filterDataByX(props.data.data, props.x, props.y, startXIndex, endXIndex, props.stackable), props.x, props.y, props.label, props.color, props.stackable, !combineStacked)}
+              data={setGraphData(filterDataByX(props.data.data, props.x, props.y, startXIndex, endXIndex, props.stackable), props.x, props.y, props.label, props.color, {"stackable": props.stackable, "displayStacked": !combineStacked})}
               options={setOptions({"title": props.title, "xTitle": props.xTitle, "yTitle": props.yTitle, "stackable": props.stackable, "maxY": rescale})}
             />
           </div>

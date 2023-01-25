@@ -9,8 +9,8 @@ const MessagesHeatmap = (props) => {
   const [error, setError] = useState(false);  // Any errors from fetching the data - displayed in no chart data component.
 
   useEffect(() => {
-    // Fetch the data on load and automatically select the sensible x range, as determined by the backend.
-    fetchMessagesOverTime(setData, setError, "auto", true);
+    // Fetch the data on load and automatically select the sensible x range for a heatmap, as determined by the backend.
+    fetchMessagesOverTime(setData, setError, "heatmap", true);
   }, []);
 
   const updateData = (e) => {
@@ -26,7 +26,7 @@ const MessagesHeatmap = (props) => {
         y={'content'}
         xTitle={data ? data.metadata.x_scale_options[data.metadata.x_scale] : ""}
         yTitle={"User"}
-        color={'rgba(192, 192, 75, 0.6)'}
+        color={'YlGn'}
         height={props.chartHeight}
         data={data}
         updateData={updateData}

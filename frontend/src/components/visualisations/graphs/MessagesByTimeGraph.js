@@ -27,7 +27,7 @@ const MessagesByTimeGraph = (props) => {
         label={"Total Messages"}
         xTitle={data ? data.metadata.x_scale_options[data.metadata.x_scale] : ""}
         yTitle={"Messages"}
-        color={'rgba(192, 192, 75, 0.6)'}
+        color={'rgba(160, 255, 100, 0.6)'}
         height={props.chartHeight}
         data={data}
         updateData={updateData}

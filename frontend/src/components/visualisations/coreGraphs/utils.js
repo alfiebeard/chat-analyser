@@ -3,7 +3,12 @@ import moment from "moment";
 import { Chart } from 'chart.js';
 import { shuffleArray } from "../../../utils/mathUtils";
 
-export function setGraphData(data, x, y, label, color, stackable=false, displayStacked=false, alpha=1){
+export function setGraphData(data, x, y, label, color, options={}){
+    const stackable = options.hasOwnProperty("stackable") ? options.stackable : false;
+    const displayStacked = options.hasOwnProperty("displayStacked") ? options.displayStacked : false;
+    const alpha = options.hasOwnProperty("alpha") ? options.alpha : 1;
+    const aggregationOfDatasets = options.hasOwnProperty("aggregationOfDatasets") ? options.aggregationOfDatasets : "sum";
+
     if (stackable && displayStacked) {
         // If data stackable and to be displayed as stacked - set number of colours equal to number of datasets.
         color = Object.keys(data).length
@@ -14,9 +19,17 @@ export function setGraphData(data, x, y, label, color, stackable=false, displayS
         var dataY = Array(dataX.length).fill(0);  // Create zero array for dataY
 
         // Now sum each of the y arrays of the datasets and add to dataY.
-        Object.values(data).forEach((dataset) => {
-            dataY = dataY.map((v, i) => v + dataset[y][i])
-        })
+        if (aggregationOfDatasets === "sum"){
+            Object.values(data).forEach((dataset) => {
+                dataY = dataY.map((v, i) => v + dataset[y][i])
+            })
+        }
+        else if (aggregationOfDatasets === "mean"){
+            Object.values(data).forEach((dataset) => {
+                dataY = dataY.map((v, i) => v + dataset[y][i])
+            })
+            dataY = dataY.map(x => x / Object.keys(data).length);
+        }
         
         // Reset data to these new sets
         data = {};
@@ -110,12 +123,26 @@ export function setOptions(options){
 }
 
 
-export function setHeatmapData(data, x, y, globalMax=true){
+export function setHeatmapData(data, x, y, color='YlGn', globalMax=true){
     // Transform the data into heatmap form
     var datasets = [];
     const settings = {borderWidth: 1, borderRadius: {topLeft: 10, topRight: 10, bottomLeft: 10, bottomRight: 10}, borderSkipped: false}
-    const colorScheme = chroma.scale('YlGn').gamma(0.25);
     const maxY = maxData(data, y);
+    
+    const minGamma = 0.1;
+    const minGammaY = 10;
+    const maxGamma = 1.0;
+    const maxGammaY = 1200;
+
+    // Set gamma to be max (i.e., 1) if maxY is below threshold
+    var gamma = maxGamma;
+    if (maxY > minGammaY) {
+        // Set gamma accordingly if within threshold range - use exponential decay.
+        const decayConstant = Math.log(minGamma) / - (maxGammaY - minGammaY)
+        gamma = Math.exp(-decayConstant * (maxY - minGammaY))
+    }
+
+    const colorScheme = chroma.scale(color).gamma(gamma);
 
     for (const user in data) {
         var userData = []
@@ -132,8 +159,6 @@ export function setHeatmapData(data, x, y, globalMax=true){
         }
         datasets.push({label: user, data: userData, backgroundColor: colours,  hoverBackgroundColor: colours, hoverBorderWidth: 2, ...settings});
     }
-
-    console.log(datasets);
 
     return {
         datasets: datasets

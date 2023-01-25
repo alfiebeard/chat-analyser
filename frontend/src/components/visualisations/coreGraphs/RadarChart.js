@@ -94,7 +94,7 @@ const RadarChart = (props) => {
           <div style={{"height": props.height !== undefined ? props.height : "100%"}}>
             <Radar
               ref={chartRef}
-              data={setGraphData(filterDataByX(props.data.data, props.x, props.y, startXIndex, endXIndex, props.stackable), props.x, props.y, props.label, props.color, props.stackable, !combineStacked, 0.6)}
+              data={setGraphData(filterDataByX(props.data.data, props.x, props.y, startXIndex, endXIndex, props.stackable), props.x, props.y, props.label, props.color, {"stackable": props.stackable, "displayStacked": !combineStacked, "alpha": 0.6, "aggregationOfDatasets": props.aggregation ? props.aggregation : "sum"})}
               options={setOptions({"title": props.title, "xTitle": props.xTitle, "yTitle": props.yTitle, "stackable": props.stackable, "maxY": rescale, "radar": true})}
             />
           </div>
