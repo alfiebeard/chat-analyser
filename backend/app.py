@@ -79,6 +79,20 @@ def api_messages_over_time():
     return g.messages_over_time(interval, split_by_users)
 
 
+@app.route('/api/message_lengths_over_time', methods=['GET'])
+def api_message_lengths_over_time():
+    interval = request.args.get('interval')
+    
+    split_by_users = request.args.get('split_by_users')
+    if split_by_users == "true":
+        split_by_users = True
+    else:
+        split_by_users = False
+
+    g = Groupchat(session)
+    return g.message_lengths_over_time(interval, split_by_users)
+
+
 @app.route('/api/messages_by_period', methods=['GET'])
 def api_messages_by_period():
     interval = request.args.get('interval')
@@ -91,6 +105,20 @@ def api_messages_by_period():
 
     g = Groupchat(session)
     return g.messages_by_period(interval, split_by_users)
+
+
+@app.route('/api/message_lengths_by_period', methods=['GET'])
+def api_message_lengths_by_period():
+    interval = request.args.get('interval')
+    
+    split_by_users = request.args.get('split_by_users')
+    if split_by_users == "true":
+        split_by_users = True
+    else:
+        split_by_users = False
+
+    g = Groupchat(session)
+    return g.message_lengths_by_period(interval, split_by_users)
 
 
 @app.route('/api/total_messages_users', methods=['GET'])
