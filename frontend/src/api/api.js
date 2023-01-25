@@ -34,12 +34,32 @@ export function fetchMessagesOverTime(setData, setError, time, split_by_users=fa
         .catch(() => {setError(true)});
 }
 
+export function fetchMessageLengthsOverTime(setData, setError, time, split_by_users=false){
+    // TODO: Explain this!
+    // Fetch the message lengths over time
+    let params = new URLSearchParams({"interval": time, "split_by_users": split_by_users}).toString();
+    fetch("api/message_lengths_over_time?" + params)
+        .then(response => response.json())
+        .then((data) => {setData(data)})
+        .catch(() => {setError(true)});
+}
 
 export function fetchMessagesByTime(setData, setError, time, split_by_users=false){
     // TODO: Explain this!
     // Fetch the messages by time
     let params = new URLSearchParams({"interval": time, "split_by_users": split_by_users}).toString();
     fetch("api/messages_by_period?" + params)
+        .then(response => response.json())
+        .then((data) => {setData(data)})
+        .catch(() => {setError(true)});
+}
+
+
+export function fetchMessageLengthsByTime(setData, setError, time, split_by_users=false){
+    // TODO: Explain this!
+    // Fetch the message lengths over time
+    let params = new URLSearchParams({"interval": time, "split_by_users": split_by_users}).toString();
+    fetch("api/message_lengths_by_period?" + params)
         .then(response => response.json())
         .then((data) => {setData(data)})
         .catch(() => {setError(true)});
