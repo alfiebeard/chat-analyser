@@ -51,9 +51,9 @@ const AnalysisPage = (props) => {
 					chartHeight={500}
 				/>
 			</Col>
-			<Col lg={4} className={"h-100 p-2"}>
+			{/* <Col lg={4} className={"h-100 p-2"}>
 				<TopWordsGraph />
-			</Col>
+			</Col> */}
 		</Row>
 	</div>
   );
